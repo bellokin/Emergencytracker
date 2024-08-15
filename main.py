@@ -20,5 +20,6 @@ try:
 #   cursor.execute("INSERT INTO mytest (id) VALUES (1), (2)")
   cursor.execute("SELECT * FROM mytest")
   print(cursor.fetchall())
+  print("Test")
 finally:
   connection.close()
