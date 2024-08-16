@@ -2,6 +2,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import jwt
+import json
 from . import database_conn
 from datetime import datetime, timedelta
 import hashlib
@@ -13,12 +14,18 @@ SECRET_KEY = 'your-secret-key'  # Replace with your actual secret key
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        # Parse the request data
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        # Parse the JSON data
+        data = json.loads(request.body.decode('utf-8'))
+
+        # Extract specific fields from the JSON data
+        username = data.get('username')
+        password = data.get('password')
 
         # Password should be hashed
-        hashed_password = hashlib.md5(password.encode()).hexdigest()
+        try:
+            hashed_password = hashlib.md5(password.encode()).hexdigest()
+        except Exception as error:
+            return JsonResponse({'error': str(error)}, status=400)
         
         # Custom authentication logic (replace with your own)
         response = database_conn.authenticate(username, hashed_password)
@@ -41,13 +48,19 @@ def login(request):
 @csrf_exempt
 def signup(request):
     if request.method == 'POST':
-        # Parse the request data
-        email = request.POST.get('email')
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        # Parse the JSON data
+        data = json.loads(request.body.decode('utf-8'))
+
+        # Extract specific fields from the JSON data
+        email = data.get('email')
+        username = data.get('username')
+        password = data.get('password')
 
         # Password should be hashed
-        hashed_password = hashlib.md5(password.encode()).hexdigest()
+        try:
+            hashed_password = hashlib.md5(password.encode()).hexdigest()
+        except Exception as error:
+            return JsonResponse({'error': str(error)}, status=400)
 
         
         # Custom registration logic (replace with your own)
