@@ -14,15 +14,15 @@ SECRET_KEY = 'your-secret-key'  # Replace with your actual secret key
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        # Parse the JSON data
-        data = json.loads(request.body.decode('utf-8'))
-
-        # Extract specific fields from the JSON data
-        username = data.get('username')
-        password = data.get('password')
-
-        # Password should be hashed
         try:
+            # Parse the JSON data
+            data = json.loads(request.body.decode('utf-8'))
+
+            # Extract specific fields from the JSON data
+            username = data.get('username')
+            password = data.get('password')
+
+            # Password should be hashed
             hashed_password = hashlib.md5(password.encode()).hexdigest()
         except Exception as error:
             return JsonResponse({'error': str(error)}, status=400)
@@ -48,16 +48,16 @@ def login(request):
 @csrf_exempt
 def signup(request):
     if request.method == 'POST':
-        # Parse the JSON data
-        data = json.loads(request.body.decode('utf-8'))
-
-        # Extract specific fields from the JSON data
-        email = data.get('email')
-        username = data.get('username')
-        password = data.get('password')
-
-        # Password should be hashed
         try:
+            # Parse the JSON data
+            data = json.loads(request.body.decode('utf-8'))
+
+            # Extract specific fields from the JSON data
+            email = data.get('email')
+            username = data.get('username')
+            password = data.get('password')
+
+            # Password should be hashed
             hashed_password = hashlib.md5(password.encode()).hexdigest()
         except Exception as error:
             return JsonResponse({'error': str(error)}, status=400)
