@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'core',
+    'email_send',
 ]
 
 MIDDLEWARE = [
@@ -124,4 +127,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-django_heroku.settings(locals())
+# Email settings
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server
+EMAIL_HOST_USER = 'd34387873@gmail.com'  # Replace with your email address
+EMAIL_HOST_PASSWORD = 'ukei vvjh ebff xwwb'  # Replace with your email password
+# EMAIL_PORT = 587  # May vary depending on your email provider
+# EMAIL_USE_TLS = True  # Use secure connection
+EMAIL_USE_TLS = False
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
