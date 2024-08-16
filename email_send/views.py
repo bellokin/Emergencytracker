@@ -13,7 +13,7 @@ def send(request):
             data = json.loads(request.body.decode('utf-8'))
 
             # Define the required fields
-            required_fields = ['username', 'emergency_contacts']
+            required_fields = ['username', 'emergency_contacts', 'user_message']
 
             # Check if all required fields are present
             missing_fields = [field for field in required_fields if field not in data]
@@ -26,10 +26,11 @@ def send(request):
 
             username = data.get('username')
             emergency_contacts = data.get('emergency_contacts')
+            user_message = data.get('user_message')
 
 
             subject = f"EMERGENCY: {username} NEEDS HELP!!!" 
-            message = f"THIS IS AN AUTO_GENERATED MESSAGE SENT BY {username} BECAUSE THEY NEED YOUR HELP. PS. NOTE THIS IS FOR A PROJECT AND NOBODY IS IN DANGER"
+            message = f"{user_message}|| THIS IS AN AUTO_GENERATED MESSAGE SENT BY {username} BECAUSE THEY NEED YOUR HELP. PS. NOTE THIS IS FOR A PROJECT AND NOBODY IS ACTUALLY IN DANGER"
 
             with get_connection(host=settings.EMAIL_HOST,port=settings.EMAIL_PORT,username=settings.EMAIL_HOST_USER,password=settings.EMAIL_HOST_PASSWORD, use_tls=settings.EMAIL_USE_TLS) as connection:  
                 email_from = settings.EMAIL_HOST_USER  
