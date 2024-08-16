@@ -1,4 +1,5 @@
 import pymysql
+from django.http import JsonResponse
 
 timeout = 10
 connection = pymysql.connect(
@@ -16,7 +17,17 @@ connection = pymysql.connect(
   
 # try:
 #   cursor = connection.cursor()
-#   cursor.execute("CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY, Email VARCHAR(255), Username VARCHAR(255), Password VARCHAR(255))")
+
+    # cursor.execute("""
+    #                CREATE TABLE IF NOT EXISTS Users (
+    #                 id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    #                 Email VARCHAR(255) UNIQUE,
+    #                 Username VARCHAR(255) UNIQUE,
+    #                 Password VARCHAR(255)
+    #                 )
+    #               """)
+    # cursor.execute("SHOW TABLES")
+
   # cursor.execute("INSERT INTO Users (id, Email, Username, Password) VALUES (%s,%s,%s,%s)", ("001","Basseyimoh3012@gmail.com","Emore","ivbwe98v34o2"))
   # cursor.execute("SELECT * FROM Users")
   # cursor.execute("Show Tables")
@@ -28,26 +39,40 @@ def authenticate(username, password):
   try:
     cursor = connection.cursor()
     cursor.execute("SELECT id FROM Users WHERE Username = %s and Password = %s", (username,password))
-    result = cursor.fetchall()
-    result = result[0]
 
-    if result is not None:
-      return result
+    result = cursor.fetchall()
+    if result != ():
+      return "User found"
     else:
-      return None
+      return "The User Doesn't exist"
     
   except Exception as error:
-    print("An Error has occured: ", error)
+    return error
   finally:
-    connection.close()
+    # connection.close()
+    pass
 
-# def register(Email, Username, Password):
-#   try:
-#     cursor = connection.cursor()
-#     cursor.execute("INSERT INTO Users (id, Email, Username, Password) VALUES (%s,%s,%s,%s)", ("001","Basseyimoh3012@gmail.com","Emore","ivbwe98v34o2"))
-#   except Exception as error:
-#     print("An Error has occured: ", error)
-#   finally:
-#     connection.close()
+def register(Email, Username, Password):
+  try:
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM Users WHERE Username = %s", (Username))
+    result = cursor.fetchall()
+    if result != ():
+      return "Username already Exists!!"
+    
+    cursor.execute("SELECT * FROM Users WHERE Email = %s", (Email))
+    result = cursor.fetchall()
+    if result != ():
+      return "Email already Exists!!"
+    
 
-# WOrk on the login tommorow
+    cursor.execute("INSERT INTO Users (Email, Username, Password) VALUES (%s,%s,%s)", (str(Email),str(Username),str(Password)))
+    connection.commit()
+    return "user added"
+    
+  except Exception as error:
+    
+    return error
+  finally:
+    # connection.close()
+    pass
