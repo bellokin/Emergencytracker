@@ -3,6 +3,7 @@ from django.conf import settings
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from sinch import SinchClient
 
 # Create your views here.
 @csrf_exempt
@@ -31,6 +32,21 @@ def send(request):
 
             subject = f"EMERGENCY: {username} NEEDS HELP!!!" 
             message = f"{user_message}|| THIS IS AN AUTO_GENERATED MESSAGE SENT BY {username} BECAUSE THEY NEED YOUR HELP. PS. NOTE THIS IS FOR A PROJECT AND NOBODY IS ACTUALLY IN DANGER"
+
+            # SMS 
+
+            sinch_client = SinchClient(
+                key_id=settings.SMS_KEY_ID,
+                key_secret=settings.SMS_KEY_SECRET,
+                project_id=settings.SMS_PROJECT_ID
+            )
+
+            sms_response = sinch_client.sms.batches.send(
+                body=f"{username} NEEDS HELP!!!,{user_message}",
+                to=["2349037276929"],
+                from_="447441421823",
+                delivery_report="none"
+            )
 
             with get_connection(host=settings.EMAIL_HOST,port=settings.EMAIL_PORT,username=settings.EMAIL_HOST_USER,password=settings.EMAIL_HOST_PASSWORD, use_tls=settings.EMAIL_USE_TLS) as connection:  
                 email_from = settings.EMAIL_HOST_USER  

@@ -142,3 +142,11 @@ EMAIL_USE_TLS = False
 EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
 EMAIL_USE_SSL = True
 
+
+# SMS SETTINGS
+
+SMS_KEY_ID = os.getenv('KEY_ID')
+SMS_KEY_SECRET = os.getenv('KEY_SECRET')
+SMS_PROJECT_ID = os.getenv('PROJECT_ID')
+
+
