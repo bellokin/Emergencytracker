@@ -16,7 +16,7 @@ connection = pymysql.connect(
   host= os.getenv('DATABASE_HOST'),
   password= os.getenv('DATABASE_PASSWORD'),
   read_timeout=timeout,
-  port= os.getenv('DATABASE_PORT', '23673'),
+  port= int(os.getenv('DATABASE_PORT', 23673)),
   user= os.getenv('DATABASE_USER'),
   write_timeout=timeout,
 )
