@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Load the .env file
 load_dotenv()
 
-timeout = 10
+timeout = 50
 
 connection = pymysql.connect(
   charset="utf8mb4",
@@ -16,11 +16,12 @@ connection = pymysql.connect(
   host= os.getenv('DATABASE_HOST'),
   password= os.getenv('DATABASE_PASSWORD'),
   read_timeout=timeout,
-  port= int(os.getenv('DATABASE_PORT', 23673)),
+  port= int(os.getenv('DATABASE_PORT')),
   user= os.getenv('DATABASE_USER'),
   write_timeout=timeout,
 )
   
+
 # try:
 #   cursor = connection.cursor()
 
