@@ -1,17 +1,23 @@
 import pymysql
 from django.http import JsonResponse
+import os
+from dotenv import load_dotenv
+
+# Load the .env file
+load_dotenv()
 
 timeout = 10
+
 connection = pymysql.connect(
   charset="utf8mb4",
   connect_timeout=timeout,
   cursorclass=pymysql.cursors.DictCursor,
-  db="EmergencyTracker",
-  host="mysql-32342ae5-bellokingdavidibukun03-8a91.e.aivencloud.com",
-  password="AVNS_X0YqYU2r7QUAL5TpN7Q",
+  db= os.getenv('DATABASE_NAME'),
+  host= os.getenv('DATABASE_HOST'),
+  password= os.getenv('DATABASE_PASSWORD'),
   read_timeout=timeout,
-  port=23673,
-  user="avnadmin",
+  port= os.getenv('DATABASE_PORT', '23673'),
+  user= os.getenv('DATABASE_USER'),
   write_timeout=timeout,
 )
   

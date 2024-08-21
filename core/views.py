@@ -7,9 +7,14 @@ from . import database_conn
 from datetime import datetime, timedelta
 import hashlib
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Create your views here.
 
-SECRET_KEY = 'your-secret-key'  # Replace with your actual secret key
+SECRET_KEY = os.getenv('SECRET_KEY')  # Replace with your actual secret key
 
 @csrf_exempt
 def login(request):
